@@ -86,13 +86,12 @@ public class MyCar {
 
 		 // 軌跡は2次式で決まる
 		 y = -0.000005f * t * t + 0.01f * t - 2.0f;
-
 		 // 一番下までボールがついたら，時間をリセット
 		 if (y <= -2.0f) {
 				 initTime = System.currentTimeMillis();
 		 }
 	 }
-
+	 // System.out.println("Mycar y = " + y);
 		// ベクトル(0.0,1.0,0.0)を中心にr*0.1度回転
 		// gl.glRotated(((double)r * 0.1), 0.0, 1.0, 0.0);
 		// ベクトル(0.0, 0.0, transform)だけ平行移動

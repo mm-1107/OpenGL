@@ -12,6 +12,7 @@ public class MyScene {
 	static MyFlag flag1 = null;
 	static MyCar car1 = null;
 	static MyBall ball1 = null;
+	static MyBall ball2 = null;
 	/**
 	 * Initialization
 	 */
@@ -21,15 +22,21 @@ public class MyScene {
 		 flag1 = new MyFlag();
 
 		 // Allocate a car
-		 car1 = new MyCar();
-		 car1.setColor(1.0, 1.0, 0.0);
-		 car1.setVelocity(5);
-		 car1.setTransform(5);
+		 // car1 = new MyCar();
+		 // car1.setColor(1.0, 1.0, 0.0);
+		 // car1.setVelocity(5);
+		 // car1.setTransform(5);
 
-		 System.out.println("インスタンス化！！");
+		 // ボールの初期化
 		 ball1 = new MyBall();
 		 ball1.setColor(1.0, 1.0, 0.0);
-		 ball1.setTransform(0);
+		 ball1.setTransform(2.0, 1.0);
+
+		 // ボールの初期化
+		 ball2 = new MyBall();
+		 ball2.setColor(1.0, 0.0, 0.0);
+		 ball2.setTransform(0.0, 0.3);
+
 
 	}
 
@@ -43,20 +50,25 @@ public class MyScene {
 		 	gl.glLightModeli(GL2.GL_LIGHT_MODEL_TWO_SIDE, GL2.GL_TRUE);
 
 	    // フラグを描画
-	    gl.glPushMatrix();
-	    if(flag1 != null)
-	    	flag1.draw(drawable);
-	    gl.glPopMatrix();
+	    // gl.glPushMatrix();
+	    // if(flag1 != null)
+	    // 	flag1.draw(drawable);
+	    // gl.glPopMatrix();
 
 	    // 車を描画
-			gl.glPushMatrix();
-	    if(car1 != null)
-	    	car1.draw(drawable);
-	    gl.glPopMatrix();
+			// gl.glPushMatrix();
+	    // if(car1 != null)
+	    // 	car1.draw(drawable);
+	    // gl.glPopMatrix();
 
 			gl.glPushMatrix();
 	    if(ball1 != null)
 	    	ball1.draw(drawable);
+	    gl.glPopMatrix();
+
+			gl.glPushMatrix();
+	    if(ball2 != null)
+	    	ball2.draw(drawable);
 	    gl.glPopMatrix();
 
 	}
