@@ -119,7 +119,7 @@ public class CgDrawer implements GLEventListener {
 
 		 // Set the positions of light sources
 		 gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, light0pos, 0);
-		 gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, light1pos, 0);
+		 // gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, light1pos, 0);
 
 		 // CarとFlgの描画
 		 MyScene.draw(drawable);

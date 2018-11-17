@@ -11,7 +11,7 @@ public class MyScene {
 	// 描画する物体の定義
 	static MyFlag flag1 = null;
 	static MyCar car1 = null;
-
+	static MyBall ball1 = null;
 	/**
 	 * Initialization
 	 */
@@ -22,9 +22,14 @@ public class MyScene {
 
 		 // Allocate a car
 		 car1 = new MyCar();
-		 car1.setColor(1.0, 0.0, 0.0);
+		 car1.setColor(1.0, 1.0, 0.0);
 		 car1.setVelocity(5);
-		 car1.setTransform(0);
+		 car1.setTransform(5);
+
+		 System.out.println("インスタンス化！！");
+		 ball1 = new MyBall();
+		 ball1.setColor(1.0, 1.0, 0.0);
+		 ball1.setTransform(0);
 
 	}
 
@@ -47,6 +52,11 @@ public class MyScene {
 			gl.glPushMatrix();
 	    if(car1 != null)
 	    	car1.draw(drawable);
+	    gl.glPopMatrix();
+
+			gl.glPushMatrix();
+	    if(ball1 != null)
+	    	ball1.draw(drawable);
 	    gl.glPopMatrix();
 
 	}
