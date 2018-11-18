@@ -9,34 +9,30 @@ import com.jogamp.opengl.GLAutoDrawable;
 public class MyScene {
 
 	// 描画する物体の定義
-	static MyFlag flag1 = null;
-	static MyCar car1 = null;
+	static MyGround ground1 = null;
 	static MyBall ball1 = null;
 	static MyBall ball2 = null;
+	static MyBall ball3 = null;
 	/**
 	 * Initialization
 	 */
 	public static void init() {
 
-		 // Allocate a flag
-		 flag1 = new MyFlag();
-
-		 // Allocate a car
-		 // car1 = new MyCar();
-		 // car1.setColor(1.0, 1.0, 0.0);
-		 // car1.setVelocity(5);
-		 // car1.setTransform(5);
+		 ground1 = new MyGround();
 
 		 // ボールの初期化
 		 ball1 = new MyBall();
-		 ball1.setColor(1.0, 1.0, 0.0);
-		 ball1.setTransform(2.0, 1.0);
+		 ball1.setColor(0.0, 1.0, 0.0);
+		 ball1.setTransform(0.0, 5.0, 1.0, 1.0);
 
 		 // ボールの初期化
 		 ball2 = new MyBall();
-		 ball2.setColor(1.0, 0.0, 0.0);
-		 ball2.setTransform(0.0, 0.3);
+		 ball2.setColor(1.0, 1.0, 0.0);
+		 ball2.setTransform(2.0, 3.0, 0.0, 1.0);
 
+		 ball3 = new MyBall();
+		 ball3.setColor(1.0, 0.0, 0.0);
+		 ball3.setTransform(1.0, 10.0, 3.0, 0.3);
 
 	}
 
@@ -49,17 +45,11 @@ public class MyScene {
 			GL2 gl = drawable.getGL().getGL2();
 		 	gl.glLightModeli(GL2.GL_LIGHT_MODEL_TWO_SIDE, GL2.GL_TRUE);
 
-	    // フラグを描画
-	    // gl.glPushMatrix();
-	    // if(flag1 != null)
-	    // 	flag1.draw(drawable);
-	    // gl.glPopMatrix();
-
-	    // 車を描画
+			// 地面を描画
 			// gl.glPushMatrix();
-	    // if(car1 != null)
-	    // 	car1.draw(drawable);
-	    // gl.glPopMatrix();
+			// if(ground1 != null)
+			// 	ground1.draw(drawable);
+			// gl.glPopMatrix();
 
 			gl.glPushMatrix();
 	    if(ball1 != null)
@@ -71,13 +61,21 @@ public class MyScene {
 	    	ball2.draw(drawable);
 	    gl.glPopMatrix();
 
+			gl.glPushMatrix();
+	    if(ball3 != null)
+	    	ball3.draw(drawable);
+	    gl.glPopMatrix();
+
+
 	}
 
 	// 初期状態に戻すメソッド
 	public static void resetMovement() {
 
 		// Reset the position of the car
-		car1.resetMovement();
+		ball1.resetMovement();
+		ball2.resetMovement();
+		ball3.resetMovement();
 	}
 
 }

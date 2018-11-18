@@ -11,8 +11,8 @@ import com.jogamp.opengl.util.Animator;
 
 
 public class CgMain extends JApplet {
-	static int width = 600;
-	static int height = 650;
+	static int width = 800;
+	static int height = 850;
 	static Animator animator;
 
 	/**
