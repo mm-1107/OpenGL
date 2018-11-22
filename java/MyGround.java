@@ -22,9 +22,9 @@ public class MyGround {
 	public void draw(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2();
 
-		gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT_AND_DIFFUSE, lightgreen, 0);
-		gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, lightgreen, 0);
-		gl.glTranslated(0.0, -1.4, 0.0);
+		// gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT_AND_DIFFUSE, lightgreen, 0);
+		// gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, lightgreen, 0);
+		gl.glTranslated(0.0, 0.0, 0.0);
 
 		gl.glBegin(GL2.GL_POLYGON);//多角形(POLIGON)を描画する
 		for (int i = 0; i < 4; ++i) {

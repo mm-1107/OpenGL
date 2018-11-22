@@ -15,8 +15,8 @@ public class CgDrawer implements GLEventListener {
 	GLAutoDrawable glAD;
 
 	// Positions of light sources
-	static float light0pos[] = { 4.0f, 6.0f, 5.0f, 1.0f };
-	static float light1pos[] = { 4.0f, 6.0f, 5.0f, 1.0f };
+	static float light0pos[] = { 4.0f, 10.0f, 5.0f, 1.0f };
+	// static float light1pos[] = { 4.0f, 6.0f, 5.0f, 1.0f };
 
 		// CgDrawerをオブジェクト化した時に勝手に呼ばれる関数
     public void init(GLAutoDrawable drawable) {
@@ -40,10 +40,11 @@ public class CgDrawer implements GLEventListener {
         gl.glEnable(GL2.GL_LIGHT0);
         gl.glEnable(GL2.GL_LIGHT1);
 
+				// 照明の色を設定
 				gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, light_diffuse,0);
 				gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_DIFFUSE, light_diffuse,0);
 
-        // Specification of background color
+        // 背景色を設定
         gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 	}
@@ -54,30 +55,35 @@ public class CgDrawer implements GLEventListener {
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
         GL2 gl = drawable.getGL().getGL2();
         GLUgl2 glu = new GLUgl2();
-				System.out.println("reshape called.");
+
         if (height <= 0)
             height = 1;
-        float h = (float) width / (float) height;
+				float fovy = 30;	// 縦の視野角度
+        float aspect = (float) width / (float) height;	// 縦に対する横方向の視野角の倍率
+				float zNear = 1;	// 一番近いZ位置
+				float zFar = 100;	// 一番遠いZ位置
 
-        // Set the viewport
+        // ウィンドウ全体に表示
         gl.glViewport(0, 0, width, height);
 
-        // Set the matrix for coordinate system transformation
+        // 投影変換モードに入る
         gl.glMatrixMode(GL2.GL_PROJECTION);
+				// 投影変換の変換行列を単位行列で初期化
         gl.glLoadIdentity();
-        glu.gluPerspective(30.0, h, 1.0, 100.0);
+				// 透視投影を行う
+				// https://atelier-yoka.com/dev_android/p_main.php?file=apiglugluperspective
+        glu.gluPerspective(fovy, aspect, zNear, zFar);
 
-        // Set the matrix for object transformation
+        // 視野変換・モデリング変換モードに入る
         gl.glMatrixMode(GL2.GL_MODELVIEW);
+				// 視野変換・モデリング変換の変換行列を単位行列で初期化
         gl.glLoadIdentity();
 
 
     }
 
 
-    /**
-     * 開始時に呼ばれる関数
-     */
+    // 開始時に呼ばれる関数
     public void display(GLAutoDrawable drawable) {
         draw(drawable);
     }
@@ -118,10 +124,10 @@ public class CgDrawer implements GLEventListener {
 
 		 // Set the positions of light sources
 		 gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, light0pos, 0);
-		 gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, light1pos, 0);
+		 // gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, light1pos, 0);
 
 		 // Ballの描画
-		 MyScene.draw(drawable);
+		 MyScene.draw(drawable, light0pos);
 
 	}
 
