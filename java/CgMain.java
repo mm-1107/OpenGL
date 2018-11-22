@@ -38,7 +38,7 @@ public class CgMain extends JApplet {
 		container.add(panel, BorderLayout.CENTER);
 
 		// キーボード操作の設定
-		CgKeyListener mkl = new CgKeyListener(canvas);
+		CgKeyListener mkl = new CgKeyListener(canvas, animator);
 		canvas.addKeyListener(mkl);
 		glc.addKeyListener(mkl);
 

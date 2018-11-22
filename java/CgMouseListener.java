@@ -55,6 +55,7 @@ public class CgMouseListener implements MouseListener, MouseMotionListener {
      * Called when cursor is pressed
      */
     public void mousePressed(MouseEvent e) {
+			MyScene.resetMovement();
     	animator.start();
     }
 

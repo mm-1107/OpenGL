@@ -15,7 +15,7 @@ public class CgDrawer implements GLEventListener {
 	GLAutoDrawable glAD;
 
 	// Positions of light sources
-	static float light0pos[] = { 4.0f, 10.0f, 5.0f, 1.0f };
+	static float light0pos[] = { 5.0f, 20.0f, 10.0f, 1.0f };
 	// static float light1pos[] = { 4.0f, 6.0f, 5.0f, 1.0f };
 
 		// CgDrawerをオブジェクト化した時に勝手に呼ばれる関数
@@ -58,7 +58,7 @@ public class CgDrawer implements GLEventListener {
 
         if (height <= 0)
             height = 1;
-				float fovy = 30;	// 縦の視野角度
+				float fovy = 60;	// 縦の視野角度
         float aspect = (float) width / (float) height;	// 縦に対する横方向の視野角の倍率
 				float zNear = 1;	// 一番近いZ位置
 				float zFar = 100;	// 一番遠いZ位置

@@ -4,14 +4,17 @@
 
 
 import java.awt.event.*;
+import com.jogamp.opengl.util.Animator;
+
 
 // KeyListenerの継承
 public class CgKeyListener implements KeyListener {
 	CgCanvas canvas;
+	Animator animator;
 
-
-	public CgKeyListener(CgCanvas c) {
+	public CgKeyListener(CgCanvas c ,Animator a) {
 		canvas = c;
+		animator = a;
 	}
 
 
@@ -29,8 +32,13 @@ public class CgKeyListener implements KeyListener {
 
 		// "R": reset
 		case KeyEvent.VK_R:
+		  animator.start();
 			MyScene.resetMovement();
 			canvas.display();
+			break;
+
+		case KeyEvent.VK_S:
+			animator.stop();
 			break;
 		}
 
