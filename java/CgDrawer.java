@@ -119,14 +119,13 @@ public class CgDrawer implements GLEventListener {
 
 		 // Set the viewpoint
 	   gl.glLoadIdentity();
-
 		 glu.gluLookAt(ex, ey, ez, cx, cy, cz, ux, uy, uz);
 
 		 // Set the positions of light sources
 		 gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, light0pos, 0);
 		 // gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, light1pos, 0);
 
-		 // Ballの描画
+		 // ボールの描画
 		 MyScene.draw(drawable, light0pos);
 
 	}
