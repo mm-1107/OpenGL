@@ -1,11 +1,11 @@
-/**
- * Model of a car
- */
-
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.glu.*;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.util.gl2.GLUT;
-import com.jogamp.opengl.util.texture.TextureIO;
+import com.jogamp.opengl.util.texture.*;
+import java.io.*;
+import java.util.*;
+
 
 public class MyBall {
 	long initTime = 0;
@@ -14,33 +14,26 @@ public class MyBall {
 	float x = 0.0f;
 	float y = 0.0f;
 	float z = 0.0f;
-	float e = 0.9f;	// 反発係数
+	float e = 0.8f;	// 反発係数
 	float g = 9.8f;	// 重力加速度
 	float v_0 = (float)Math.sqrt(2.0 * g * h);	// 初速度
+	long t = 0;
+	String image = null;
 	private int bound_flg = 0;
-	// Colors
-	float color[] = { 0.5f, 0.5f, 0.5f, 1.0f };
-	float specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	float shininess[] = {100.f};
+
+	float specular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	float shininess[] = {60.f};
 	// Distance from the center of the orbit
 	float init_h = 0.0f;
-	/**
-	 * Set color
-	 */
-	 public void setColor(double r, double g, double b) {
-		color[0] = (float)r;
-		color[1] = (float)g;
-		color[2] = (float)b;
-		color[3] = 1.0f;
-	}
 
-	public void setTransform(double x_,double h_,double z_, double r_) {
+	public void init(double x_,double h_,double z_, double r_, String file) {
 		x = (float)x_;
 		h = (float)h_;	// ボールの高さ
 		y = h;
 		z = (float)z_;	// z座標
 		init_h = h;
 		r = (float)r_;	// 球の半径
+		image = file;
 	}
 
 	public void resetMovement() {
@@ -82,6 +75,7 @@ public class MyBall {
 		return shadow_matrix;
   }
 
+
 	// ボールのy座標を計算
 	public void calculatehigh(){
 		// ボールのy座標を計算
@@ -91,7 +85,7 @@ public class MyBall {
 		 initTime = System.currentTimeMillis();
 	 }
 	 	else {
-		 long t = System.currentTimeMillis() - initTime;
+		 t = System.currentTimeMillis() - initTime;
 
 		 if (bound_flg == 0){
 			 // 自由落下 tはミリ秒なので0.001をかける
@@ -111,10 +105,12 @@ public class MyBall {
 	 }
 	}
 
+
 	// ボール描画
 	public void draw(GLAutoDrawable drawable,float[] light0pos) {
 		GL2 gl = drawable.getGL().getGL2();
 		GLUT glut = new GLUT();
+		GLU glu = new GLU();
 		float[] shadow_matrix = new float[16];	// 影の行列
 
 		// ボールのy座標を計算
@@ -122,11 +118,37 @@ public class MyBall {
 		// 影行列を計算
 	 	shadow_matrix = make_shadow_matrix(x,y,z, light0pos);
 
-		// Texture texture = TextureIO.newTexture("./red.png", true);
-    // texture.enable();
-    // texture.bind();
-		
-		// ボールの影をつける
+		try {
+        InputStream stream = getClass().getResourceAsStream(image);
+        TextureData data = TextureIO.newTextureData(gl.getGLProfile(), stream, false, "jpg");
+        Texture pokemonTexture = TextureIO.newTexture(data);
+				pokemonTexture.enable(gl);
+		    pokemonTexture.bind(gl);
+
+        }
+    catch (IOException exc) {
+        exc.printStackTrace();
+        System.exit(1);
+        }
+
+		// ----- ボール描画 -----
+		gl.glPushMatrix();
+    GLUquadric pokemon = glu.gluNewQuadric();
+    glu.gluQuadricTexture(pokemon, true);
+		glu.gluQuadricDrawStyle(pokemon, GLU.GLU_FILL);
+    glu.gluQuadricNormals(pokemon, GLU.GLU_FLAT);
+    glu.gluQuadricOrientation(pokemon, GLU.GLU_OUTSIDE);
+		// ボールの位置を指定
+		gl.glTranslatef(x, y, z);
+		gl.glRotatef(270.0f, 1.0f, 0.0f, 0.0f);
+		// 球体の描画
+    glu.gluSphere(pokemon, r, 20, 15);
+    glu.gluDeleteQuadric(pokemon);
+		gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, specular, 0);
+		gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SHININESS, shininess, 0);
+		gl.glPopMatrix();
+
+		// ----- ボールの影をつける ------
 		gl.glDisable(GL2.GL_LIGHTING);
 		gl.glDisable(GL2.GL_LIGHT0);
 		gl.glColor3d(0.1f,0.1f,0.1f);
@@ -134,26 +156,11 @@ public class MyBall {
 		gl.glPushMatrix();
 		gl.glMultMatrixf(shadow_matrix, 0);
 		gl.glTranslatef(x, y, z);
-		glut.glutSolidSphere(r, 40, 40);
+		glut.glutSolidSphere(r, 20, 20);
 		gl.glPopMatrix();
 
 		gl.glEnable(GL2.GL_LIGHTING);
 		gl.glEnable(GL2.GL_LIGHT0);
 
-		// ボール描画
-		gl.glPushMatrix();
-		// 平行移動
-		gl.glTranslatef(x, y, z);
-		// 球体を描画
-		// glut.glutSolidCube(r);
-		glut.glutSolidSphere(r, 40, 40);
-		// ボールの質感と色を設定
-		gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_AMBIENT_AND_DIFFUSE, color, 0);	// 図形の色
-		gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, specular, 0);
-		gl.glMaterialfv(GL2.GL_FRONT_AND_BACK, GL2.GL_SHININESS, shininess, 0);
-		gl.glPopMatrix();
 	}
-
-
-
 }

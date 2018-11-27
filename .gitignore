@@ -3,6 +3,9 @@
 # Compiled class file
 *.class
 
+# tmp image file
+tmp_image/
+
 # Log file
 *.log
 
